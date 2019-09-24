@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"samathy"
+	],
+	"copyright": "Copyright © 2019, samathy",
+	"dependencies": {
+		"vibe-d": "~>0.8.5"
+	},
+	"description": "Samathy's simple blog site",
+	"license": "MIT",
+	"name": "blog-sbarratt"
+}
