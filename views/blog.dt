@@ -39,7 +39,19 @@ html
         br
         br
         div.body
+            div.nav(style="display: flex")
+                div.prev(style="margin: 5%; flex:1;")
+                    a(href="/blog/#{prev}") Prev
+                div.next(style="margin: 5%; flex:0 0 0;")
+                    a(href="/blog/#{next}") Next
+            br
             != content
+            br
+            div.nav(style="display: flex")
+                div.prev(style="margin: 5%; flex:1;")
+                    a(href="/blog/#{prev}") Prev
+                div.next(style="margin: 5%; flex:0 0 0;")
+                    a(href="/blog/#{next}") Next
         div.copyright
             p Copyright Samathy Barratt 2019
         div

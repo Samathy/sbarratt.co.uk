@@ -1,17 +1,109 @@
 import std.stdio;
-import std.file: readText, read, exists;
+import std.file: readText, read, exists, dirEntries, SpanMode, isFile;
+import std.algorithm: sort;
+import std.string: split;
 import vibe.http.server;
 import vibe.http.fileserver;
 import vibe.http.router;
 import vibe.textfilter.markdown;
 import vibe.core.core: runApplication;
 
+string[] getBlogFiles()
+{
+    string[] files;
+
+    foreach(string name; dirEntries("public/blog/", SpanMode.breadth))
+    {
+        if ( name.isFile() )
+        {
+            string filename = name.split("/")[2];
+            files = files~filename;
+        }
+    }
+
+    return files;
+}
+
+/// Returns next blog post, if one exists.
+string nextBlogPost(string currentPost)
+{
+    string[] files = getBlogFiles();
+
+    auto filesSorted = files.sort();
+
+    string next;
+    
+    int i = 0;
+    foreach(string name; files)
+    {
+        if (name == currentPost)
+        {
+            if ( i+1 < files.length)
+            {
+                next = files[i+1];
+            }
+            else
+            {
+                return "";
+            }
+            i+=1;
+        }
+    }
+
+    return next;
+}
+
+/// Returns previous blog post - if one exists.
+string previousBlogPost(string currentPost)
+{
+    string[] files = getBlogFiles();
+
+    auto filesSorted = files.sort();
+
+    string prev;
+    
+    int i = 0;
+    foreach(string name; files)
+    {
+        if (name == currentPost)
+        {
+            if ( i - 1 > 0)
+            {
+                prev = files[i-1];
+            }
+            else
+            {
+                return "latest";
+            }
+            i+=1;
+        }
+    }
+    return prev;
+
+}
+
 /// Renders a markdown file from the 'blog' directory.
 void handleBlogRequest( scope HTTPServerRequest req, scope HTTPServerResponse res)
 {
     auto path = req.requestPath.toString()[1..$];
 
-    if ( !exists("public/"~path))
+    // If we havent requested anything in particular
+    // load the latest
+    if ( path.split("/")[$-1] == "blog")
+    {
+        path = "blog/latest";
+    }
+
+
+    // Latest always points to most recent
+    if ( path.split("/")[$-1] == "latest")
+    {
+        string[] files = getBlogFiles();
+        path = "blog/"~files[$-1];
+    }
+
+    // If the post doesnt exist, or we're displaying nothing.
+    if ( !exists("public/"~path) || path == "blog/")
     { 
       res.render!("404.dt"); 
       return;
@@ -20,7 +112,10 @@ void handleBlogRequest( scope HTTPServerRequest req, scope HTTPServerResponse re
     string postText = readText("public/"~path);
     string content = filterMarkdown(postText);
 
-    res.render!("basic.dt", content);
+    string next = nextBlogPost(path[5 .. $]);
+    string prev = previousBlogPost(path[5 .. $]);
+
+    res.render!("blog.dt", content, next, prev);
 
 }
 
@@ -29,7 +124,7 @@ void handleStandardRequest ( scope HTTPServerRequest req, scope HTTPServerRespon
 {
     auto path = req.requestPath.toString()[1..$];
 
-    if ( !exists("public/"~path))
+    if ( !exists("public/"~path) && isFile("public/"~path))
     { 
       res.render!("404.dt"); 
       return;
@@ -61,8 +156,17 @@ int main()
     auto router = new URLRouter;
     
     router.get("/", &index);
-    router.get("*", &handleStandardRequest);
+    router.get("/blog/*", &handleBlogRequest);
+    router.get("/blog/", &handleBlogRequest);
     router.get("/blog", &handleBlogRequest);
+	router.get("/index", &handleStandardRequest);
+    router.get("/about", &handleStandardRequest);
+    router.get("/contact", &handleStandardRequest);
+    router.get("/projects", &handleStandardRequest);
+    router.get("/speaking", &handleStandardRequest);
+    router.get("/photography", &handleStandardRequest);
+
+	router.get("/assets/*", serveStaticFiles("./public/"));
 
     auto listener = listenHTTP(settings, router);
 
