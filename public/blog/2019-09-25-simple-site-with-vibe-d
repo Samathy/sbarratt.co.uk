@@ -1,0 +1,41 @@
+# A Simple site with Vibe-d
+
+Welcome to my new blog, isnt it wonderful!
+After the gradual downfall of Medium, where my last blog was [hosted](https://medium.com/@samathy_barratt),
+I've decided to self-host something for my rare blog posts.
+
+I asked on [Twitter](https://twitter.com/Samathy_Barratt/status/1174983789287825408) for suggestions as to ways to self-host a blog, 
+since I'm a little out of touch with the current best things available.
+The best suggestion for my purposes, by far, was Jekyll.
+
+But.
+
+I'm me, and I wanted to try out leading [D language](https://dlang.org/) project, [Vibe.d](https://vibed.org).
+So here it is! You're reading a page served with Vibe-d.
+
+You can find the source code for this site [Here](https://github.com/samathy/sbarratt.co.uk). 
+Its fairly simple, with the most complex parts being for handling sorting the blogposts
+properly.
+
+Essentially, most of the pages are [Diet](http://vibed.org/templates/diet) templates filled with some 
+static content ( in Markdown ).
+The blog posts are pretty much the same, except theres some logic for
+displaying the latest one, and allowing selection of the next and previous
+post.
+
+I'm happy that the code is so small, that there is very little that could possible go awfully wrong.
+Not that I get enough traffic for it to really matter!
+
+I'll be deploying by pushing to my GH repo, and logging in and updating the clone on my server.
+Simple, a bit manual, but very low effort.
+
+Potential improvements for the site may well be caching the parsing of the Markdown to improve
+response times to things that are read a lot.
+But for now, I'll just leave it as this!
+
+Thanks,
+
+[Samathy](https://social.samathy.space)
+
+
+
