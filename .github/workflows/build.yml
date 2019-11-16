@@ -12,3 +12,12 @@ jobs:
     - uses: mihails-strasuns/setup-dlang@v0
     - name: Build
       run: dub build
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+          files: 
+                  blog-sbarratt
+                  public/*
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
