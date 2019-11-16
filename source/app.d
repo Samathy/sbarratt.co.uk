@@ -115,7 +115,9 @@ void handleBlogRequest( scope HTTPServerRequest req, scope HTTPServerResponse re
     string next = nextBlogPost(path[5 .. $]);
     string prev = previousBlogPost(path[5 .. $]);
 
-    res.render!("blog.dt", content, next, prev);
+    string perma = "https://sbarratt.co.uk/blog/"~path[5 .. $];
+
+    res.render!("blog.dt", content, next, prev, perma);
 
 }
 

@@ -39,6 +39,9 @@ html
         br
         br
         div.body
+            div.permalink
+                p Permalink:
+                a(href="#{perma}") #{perma}
             div.nav(style="display: flex")
                 div.prev(style="margin: 5%; flex:1;")
                     a(href="/blog/#{prev}") Prev
