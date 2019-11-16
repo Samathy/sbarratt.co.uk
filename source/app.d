@@ -49,7 +49,7 @@ string nextBlogPost(string currentPost)
         i+=1;
     }
 
-    return name;
+    return currentPost;
 }
 
 /// Returns previous blog post - if one exists.
@@ -77,7 +77,7 @@ string previousBlogPost(string currentPost)
         }
         i+=1;
     }
-    return name;
+    return currentPost;
 
 }
 
