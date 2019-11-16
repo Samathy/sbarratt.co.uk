@@ -12,6 +12,7 @@ jobs:
     - uses: mihails-strasuns/setup-dlang@v0
     - name: Build
       run: dub build
+    - name: Make-Release-Archive
       run: tar-files.sh
     - name: Release
       uses: softprops/action-gh-release@v1
