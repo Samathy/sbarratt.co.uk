@@ -13,7 +13,7 @@ jobs:
     - name: Build
       run: dub build
     - name: Make-Release-Archive
-      run: tar-files.sh
+      run: bash tar-files.sh
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
