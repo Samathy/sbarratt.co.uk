@@ -31,8 +31,6 @@ string nextBlogPost(string currentPost)
 
     auto filesSorted = files.sort();
 
-    string next;
-    
     int i = 0;
     foreach(string name; files)
     {
@@ -40,17 +38,18 @@ string nextBlogPost(string currentPost)
         {
             if ( i+1 < files.length)
             {
-                next = files[i+1];
+                return files[i+1];
             }
             else
             {
-                return "";
+                return name;
             }
-            i+=1;
         }
+
+        i+=1;
     }
 
-    return next;
+    return name;
 }
 
 /// Returns previous blog post - if one exists.
@@ -67,18 +66,18 @@ string previousBlogPost(string currentPost)
     {
         if (name == currentPost)
         {
-            if ( i - 1 > 0)
+            if ( i - 1 >= 0)
             {
-                prev = files[i-1];
+                return files[i-1];
             }
             else
             {
-                return "latest";
+                return name;
             }
-            i+=1;
         }
+        i+=1;
     }
-    return prev;
+    return name;
 
 }
 
