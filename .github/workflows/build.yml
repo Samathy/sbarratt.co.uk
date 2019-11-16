@@ -1,0 +1,14 @@
+name: DLang
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - uses: mihails-strasuns/setup-dlang@v0
+    - name: Build
+      run: dub build
