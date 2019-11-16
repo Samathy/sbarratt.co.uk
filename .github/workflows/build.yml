@@ -12,10 +12,10 @@ jobs:
     - uses: mihails-strasuns/setup-dlang@v0
     - name: Build
       run: dub build
+      run: tar-files.sh
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
-      run: tar-files.sh
       with:
           files: release.tar.gz
       env:
