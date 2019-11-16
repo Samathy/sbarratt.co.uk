@@ -98,7 +98,7 @@ void handleBlogRequest( scope HTTPServerRequest req, scope HTTPServerResponse re
     if ( path.split("/")[$-1] == "latest")
     {
         string[] files = getBlogFiles();
-        path = "blog/"~files[$-1];
+        path = "blog/"~files.sort()[$-1];
     }
 
     // If the post doesnt exist, or we're displaying nothing.
