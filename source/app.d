@@ -1,23 +1,23 @@
 import std.stdio;
-import std.file: readText, read, exists, dirEntries, SpanMode, isFile;
-import std.algorithm: sort;
-import std.string: split;
+import std.file : readText, read, exists, dirEntries, SpanMode, isFile;
+import std.algorithm : sort;
+import std.string : split;
 import vibe.http.server;
 import vibe.http.fileserver;
 import vibe.http.router;
 import vibe.textfilter.markdown;
-import vibe.core.core: runApplication;
+import vibe.core.core : runApplication;
 
 string[] getBlogFiles()
 {
     string[] files;
 
-    foreach(string name; dirEntries("public/blog/", SpanMode.breadth))
+    foreach (string name; dirEntries("public/blog/", SpanMode.breadth))
     {
-        if ( name.isFile() )
+        if (name.isFile())
         {
             string filename = name.split("/")[2];
-            files = files~filename;
+            files = files ~ filename;
         }
     }
 
@@ -32,13 +32,13 @@ string nextBlogPost(string currentPost)
     auto filesSorted = files.sort();
 
     int i = 0;
-    foreach(string name; files)
+    foreach (string name; files)
     {
         if (name == currentPost)
         {
-            if ( i+1 < files.length)
+            if (i + 1 < files.length)
             {
-                return files[i+1];
+                return files[i + 1];
             }
             else
             {
@@ -46,7 +46,7 @@ string nextBlogPost(string currentPost)
             }
         }
 
-        i+=1;
+        i += 1;
     }
 
     return currentPost;
@@ -60,78 +60,78 @@ string previousBlogPost(string currentPost)
     auto filesSorted = files.sort();
 
     string prev;
-    
+
     int i = 0;
-    foreach(string name; files)
+    foreach (string name; files)
     {
         if (name == currentPost)
         {
-            if ( i - 1 >= 0)
+            if (i - 1 >= 0)
             {
-                return files[i-1];
+                return files[i - 1];
             }
             else
             {
                 return name;
             }
         }
-        i+=1;
+        i += 1;
     }
     return currentPost;
 
 }
 
 /// Renders a markdown file from the 'blog' directory.
-void handleBlogRequest( scope HTTPServerRequest req, scope HTTPServerResponse res)
+void handleBlogRequest(scope HTTPServerRequest req, scope HTTPServerResponse res)
 {
-    auto path = req.requestPath.toString()[1..$];
+    auto path = req.requestPath.toString()[1 .. $];
 
     // If we havent requested anything in particular
     // load the latest
-    if ( path.split("/")[$-1] == "blog")
+    if (path.split("/")[$ - 1] == "blog")
     {
         path = "blog/latest";
     }
 
-
     // Latest always points to most recent
-    if ( path.split("/")[$-1] == "latest")
+    if (path.split("/")[$ - 1] == "latest")
     {
         string[] files = getBlogFiles();
-        path = "blog/"~files.sort()[$-1];
+        writeln(files.sort());
+        path = "blog/" ~ files.sort()[$ - 1];
     }
 
     // If the post doesnt exist, or we're displaying nothing.
-    if ( !exists("public/"~path) || path == "blog/")
-    { 
-      res.render!("404.dt"); 
-      return;
+    if (!exists("public/" ~ path) || path == "blog/")
+    {
+        res.render!("404.dt");
+        return;
     }
 
-    string postText = readText("public/"~path);
+    string postText = readText("public/" ~ path);
     string content = filterMarkdown(postText);
 
     string next = nextBlogPost(path[5 .. $]);
     string prev = previousBlogPost(path[5 .. $]);
 
-    string perma = "https://sbarratt.co.uk/blog/"~path[5 .. $];
+    string perma = "https://sbarratt.co.uk/blog/" ~ path[5 .. $];
 
     res.render!("blog.dt", content, next, prev, perma);
 
 }
 
 /// Renders a markdown file from the 'public' directory.
-void handleStandardRequest ( scope HTTPServerRequest req, scope HTTPServerResponse res)
+void handleStandardRequest(scope HTTPServerRequest req, scope HTTPServerResponse res)
 {
-    auto path = req.requestPath.toString()[1..$];
+    auto path = req.requestPath.toString()[1 .. $];
 
-    if ( !exists("public/"~path) && isFile("public/"~path))
-    { 
-      res.render!("404.dt"); 
-      return;
+    if (!exists("public/" ~ path) && isFile("public/" ~ path))
+    {
+        res.render!("404.dt");
+        return;
     }
 
-    string contentMD = readText("public/"~path);
+    string contentMD = readText("public/" ~ path);
     string content = filterMarkdown(contentMD);
     string css = "basic";
 
@@ -139,7 +139,7 @@ void handleStandardRequest ( scope HTTPServerRequest req, scope HTTPServerRespon
 }
 
 /// Always renders index.
-void index ( scope HTTPServerRequest req, scope HTTPServerResponse res)
+void index(scope HTTPServerRequest req, scope HTTPServerResponse res)
 {
     auto path = req.requestPath;
     string contentMD = readText("public/index");
@@ -155,23 +155,24 @@ int main()
     settings.bindAddresses = ["::1", "127.0.0.1"];
 
     auto router = new URLRouter;
-    
+
     router.get("/", &index);
     router.get("/blog/*", &handleBlogRequest);
     router.get("/blog/", &handleBlogRequest);
     router.get("/blog", &handleBlogRequest);
-	router.get("/index", &handleStandardRequest);
+    router.get("/index", &handleStandardRequest);
     router.get("/about", &handleStandardRequest);
     router.get("/contact", &handleStandardRequest);
     router.get("/projects", &handleStandardRequest);
     router.get("/speaking", &handleStandardRequest);
     router.get("/photography", &handleStandardRequest);
 
-	router.get("/assets/*", serveStaticFiles("./public/"));
+    router.get("/assets/*", serveStaticFiles("./public/"));
 
     auto listener = listenHTTP(settings, router);
 
-    scope(exit) listener.stopListening();
+    scope (exit)
+        listener.stopListening();
 
     runApplication();
 
