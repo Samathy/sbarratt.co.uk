@@ -21,6 +21,12 @@ html
             p {
                 font-family: sans-serif;
             }
+            img {
+                display: block;
+                margin: auto;
+                max-width: 70%;
+                max-height: 50em;
+            }
 
 
         title Samathy Barratt
