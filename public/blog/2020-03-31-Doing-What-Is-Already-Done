@@ -1,0 +1,57 @@
+# Doing what is already done
+
+A few days ago I was tasked with figuring out how Nottingham Hackspace members
+could request access to the hackspace while it is closed during the UK's
+lockdown.  Part of the solution was having a phone number which, when it
+received a text, forwarded it on to the board of Trustees.
+I ended up employing Twillio and a Zapier integration to forward SMSs on to Slack.
+Twilio sends an auto-reply to SMSs messages received, and it uses the response
+from a GET request made to a user-provided URL. I didn't particularly want to
+host a script on one of my servers, along with setting up an nginx route and
+such because it takes a while to set up and requires me maintaining it, so we
+ended up sheepishly using scripts.google.com to host the simple script instead.
+
+I wondered if there was a solution to hosting simple, stand-alone scripts
+behind a url similar to Google Script. Something where I could just have a
+script print out a response to stdin and then scp it to a directory on a server
+and have that script available to field requests without any more setup.
+
+I didnt find anything , so I wrote [Lambaa](https://github.com/samathy/lambaa).
+
+It is a [vibe-d](https://vibed.org/) web server which routes any request to a
+script name, to a script it finds in a given directory. It just passes the
+request info over stdin, and receives the script's response over the stdout,
+which it then responds to the original request with.  Its fairly simple, and
+fulfills exactly what I needed it too.
+
+I showed this to a couple of friends, [Rixx](https://chaos.social/@rixx), [Alex](https://twitter.com/alexwlchan) and [Iguana](https://twitter.com/kapellosaur) who mentioned that
+it looks a lot like cgi.bin.
+Which it does.
+Oh no, have I just re-implemented something that already exists?!?!
+
+I have. Looks like my search terms were a bit wooly, I didn't manage to describe what I wanted.
+
+But thats fine, I think. I enjoyed writing Lambaa, and it was a great chance to
+write some Dlang ( not something I have opportunity to do often ).  Although it
+does feel a little like I wasted my time writing lambaa, I learned the
+following things:
+
+* More advanced use of vibe-d - My website is already a vibe-d application, but Lambaa uses some things I havent used before.
+* How to exec other processes from within Dlang, and capture their output - Just a small thing! Could be useful some time in the future!
+* Some more about vibe-d's json processing support - vibe-d.data.json is a bit different to dlang's std.json. Learning more about using json is also cool.
+* HTTP status codes - I am not a web developer, I don't really know all that much about what error codes do what, which ones require bodies, which dont etc.
+* Testing a web-server-like application. - Lambaa is hard to unittest, because most of it is just handling an HTTP request and processing a response, so I wrote a bit of Python to help me run integration style test cases using different scripts which exercise partiular parts of Lambaa's internals.
+
+
+Lambaa is availabe on my GitHub at [github.com/samathy/lambaa](https://github.com/samathy/lambaa). Its not
+particularly useful to you, probably, and needs some more work.  But I consider
+it time-well-spent.
+
+For the future, Lambaa needs:
+
+• Example scripts
+• Command line configuration for script and log directories
+• Better docs ( in and out of code )
+• Perhaps an interface to upload scripts, or even edit them. ( I could add this as a script itself server by lambaa! )
+• More sheep related jokes.
+• Automated running of the tests I wrote.
