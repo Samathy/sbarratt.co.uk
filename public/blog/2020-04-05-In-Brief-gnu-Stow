@@ -1,0 +1,77 @@
+# In Brief: GNU Stow
+
+A week or so ago I got around to installing a wiki on my home server.
+I'm planning to write something up about that too soon.
+
+After installing the wiki software, I started to feel extremely uncomfortable about
+not having all my `/etc/` config files versioned, and stored in a place I could easily get to them.
+
+All the config for all my programs on my laptops and desktops are stored in a `dotfiles` git repo.
+But I don't do anything like that for server configs.
+
+That leaves me in the situation where my server may be working perfectly right
+now, but if I change anything which breaks stuff, need to re-use a config
+somewhere else, or just want to figure out how I got it into the state its in,
+I can't.
+
+So, config management on linux servers, whats the sitch' on that?
+
+If you search the internet for something like "Linux config management" you get
+enterprise-ish solutions like [Chef](https://www.chef.io/),
+[Puppet](https://puppet.com/) and [Ansible](https://www.ansible.com/).
+
+I've used Ansible a bit at work, and its _okay_. Out of the bunch above it is
+by far the one I would be most likely to use on my personal infrastructure.
+
+[Rixx](https://chaos.social/@rixx) suggested that I should look at etckeeper.
+etckeeper is like, partially what I want. But I really do _not_ care about
+keeping the default configs for all the software I've got installed.
+What I cared about, was keeping the configs that I'd customised, and only those files.
+
+I also wanted to keep track of some server configuration which doesn't live in
+`/etc/` ( specifically, the wiki config, but other stuff too ).
+
+Plus I have very little need for the system to be automated - when I edit a
+file, I know full well I edited it, and I'd like to be able to add a useful
+commit message telling future me what the heck I was doing.
+
+**So, getting to the point;** I ended up using [GNU Stow](https://www.gnu.org/software/stow/), just like I use for my local dotfiles.
+
+Stow is very simple. For each piece of software you want to store the config
+for, you create a directory.
+Inside that directory, you create the directory structure where the configs
+normally live.
+So, for nginx, I have:
+
+    config/nginx/etc/nginx/sites-available/
+
+While in the `config` directory, I can run `stow -t / nginx` and stow will make
+symlinks in `/etc/nginx/sites-available/` pointing to all the files
+inside `config/nginx/etc/nginx/sites-available/`.
+
+I placed the `config` directory on my server's RAID array, moved all the
+configs I cared about into their respective directory structures, and put the
+whole thing in a git repo.
+
+Bonuses came when I realised I could mount that config directory on my server
+as an nfs accessible directory on my other devices in my home network. So my
+server, and network-services(Internal DNS,DynamicDns etc) systems have their
+configs stored in a redundant, backed up, versioned place.
+
+Every time I edit a file that I'm already tracking, I just add a git commit detailing my changes.
+
+To add a new file, I just move it from its location to the appropriate location
+in my config repo, and then `stow` it back to where it should be.
+
+There are some issues that come about with most files in `/etc/` being owned by
+root making tracking them in a git repo kinda weird. 
+But it only takes a little wrangling by running `git add, git commit` with `sudo` and then 
+`git commit --amend --reset-author` with my normal user later.
+I'm sure theres a better solution than that, but hey, works.
+
+Perhaps if I was maintaining actual infrastructure, or deploying servers often
+I would use a different tool.  But for now, stow is simple and easy to manage
+and doesn't require much setup.
+
+It works for me!
+
