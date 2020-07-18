@@ -1,0 +1,83 @@
+#Tools Are Exciting
+
+Tags: Blog, programming, software, engineering, tools
+
+This is a blog post in inspired by a twitter thread by my friend
+[David](https://twitter.com/DRMacIver/status/1284443126740942851).
+
+David wrote about how he thinks its weird that programmers tend to obsess over
+their tools.
+He thinks that its odd to get excited about a tool when you're just using it.
+
+I disagree.
+
+This isn't a dig at David, a person I respect and admire who is entitled to his
+own opinions. I do want to express my own opinion on the subject though.
+
+Its completely fine to have tools which you just _use_.
+Tools are a means to an end, they help you achieve the task you set out to achieve.
+Not all tools are perfect, many are not very interesting.
+Some make the job easier, but are not exactly nice ( Git, anyone? ).
+
+In software engineering a tool might be the programming language you're working in.
+It might be the testing framework you're using, or the build system.
+
+David mentions that he thinks its okay to be excited about _making_ a tool that
+solves your problem, but not about _using_ a tool that solves your problem.
+
+I think all those things can be exciting as you use them.
+If they're good tools, which perfectly solve your problem, it can be
+pleasurable to be able to pick them up and use them.
+
+Imagine you found out about a framework on Hacker News one time, you starred it
+on GitHub.
+You tried it out a couple times and enjoyed learning the new tool, but you
+don't have any _real_ work to do with it yet.
+
+Then, you come to develop a widget and realise that that framework you found
+would be _perfect_ for helping you with your widget.
+You're excited that you know of a perfect tool to solve your problem.
+You're excited that this task is going to be easier than it would without the tool.
+
+While you work on the widget, you can enjoy calling a function that simplifies
+a process you know would have otherwise been complicated.
+You take pleasure in the beauty of how well those data structures encapsulate
+the data you're dealing with.
+You wonder "Can I do _this..._" and of course you can!
+
+The framework was engineered well and using it is enjoyable and exciting
+because it solves your problems perfectly and makes it easy to get stuff done.
+
+When you get a chance, you share your love of this tool with other software
+engineers so that they might discover just how nice the framework is to use for
+widget development.
+
+Personally, I love the opportunity to use [Dlang](https://dlang.org) to construct software
+solutions. I am excited by using it, because its such a great language that
+works in a way that I enjoy and fits with the way I think about programming.
+
+This applies not just to software.
+People who make physical things can take great pleasure in constructing or
+discovering the perfect tool to help them with their work.
+I once made a table with a friend for my local [Hackspace](https://nottinghack.org.uk).
+We enjoyed the process of making the table, sizing it up correctly, buying the
+materials and finally the manufacture and finishing of it.
+
+I take pleasure in using that table every time I get the opportunity too.
+It perfectly solves the problem of not enough work space in the electronics area.
+Its in exactly the right place, its the right height and depth.
+Its not a visually beautiful table, but its a beautiful table because it works for me in exactly the way I need it too.
+Every time I need more space for spreading out an electronics table, I am
+excited by the opportunity to use that table ( and the hackspace in general )
+that I make the journey.
+I could stay at home and make do, but I enjoy it.
+
+If no one was excited by using a tool, would you ever actually make better tools?
+You have a tool which is adequate for your needs, but not perfect.
+If you know tools can't be exciting to use, why would you attempt to solve your problem and make it better?
+When you think about it, the only reason to make a better tool is because it
+makes your life easier, I don't know how you can't enjoy and be excited about
+using something that makes your life easier.
+If the tool you're using doesn't excite you, find a different tool.
+
+Programming languages, testing frameworks, screwdrivers and jigs; tools can be exciting, a pleasure to use and beautiful.
