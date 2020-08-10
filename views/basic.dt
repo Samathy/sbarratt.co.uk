@@ -41,5 +41,5 @@ html
         div.body
             != content
         div.copyright
-            p Copyright Samathy Barratt 2019
+            p Copyright Samathy Barratt 2020
         div
