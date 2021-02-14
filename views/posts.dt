@@ -21,12 +21,6 @@ html
             p {
                 font-family: sans-serif;
             }
-            img {
-                display: block;
-                margin: auto;
-                max-width: 70%;
-                max-height: 50em;
-            }
 
 
         title Samathy Barratt
@@ -45,29 +39,11 @@ html
         br
         br
         div.body
-            div.permalink
-                p Permalink:
-                a(href="#{perma}") #{perma}
+            - import std.algorithm: sort, reverse;
+            - foreach (file; content.sort().reverse())
+                a(href='#{ file }') #{ file }
                 br
-                br
-                a(href="/blog/posts") All Posts
-            div.nav(style="display: flex")
-                div.prev(style="margin: 5%; flex:1;")
-                    a(href="/blog/#{prev}") Prev
-                div.next(style="margin: 5%; flex:0 0 0;")
-                    a(href="/blog/#{next}") Next
-            br
-            != content
-            br
-            a(href="/blog/posts") All Posts
-            br
-            div.nav(style="display: flex")
-                div.prev(style="margin: 5%; flex:1;")
-                    a(href="/blog/#{prev}") Prev
-                div.next(style="margin: 5%; flex:0 0 0;")
-                    a(href="/blog/#{next}") Next
+
         div.copyright
             p Copyright Samathy Barratt 2020
         div
-
-

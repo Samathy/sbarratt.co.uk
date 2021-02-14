@@ -147,6 +147,13 @@ void index(scope HTTPServerRequest req, scope HTTPServerResponse res)
     res.render!("basic.dt", content);
 }
 
+void handlePostsRequest(scope HTTPServerRequest req, scope HTTPServerResponse res)
+{
+
+    string[] content = getBlogFiles();
+    res.render!("posts.dt", content);
+}
+
 int main()
 {
 
@@ -157,6 +164,8 @@ int main()
     auto router = new URLRouter;
 
     router.get("/", &index);
+    router.get("/blog/posts", &handlePostsRequest);
+    router.get("/posts", &handlePostsRequest);
     router.get("/blog/*", &handleBlogRequest);
     router.get("/blog/", &handleBlogRequest);
     router.get("/blog", &handleBlogRequest);
