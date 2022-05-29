@@ -175,6 +175,7 @@ int main()
     router.get("/projects", &handleStandardRequest);
     router.get("/speaking", &handleStandardRequest);
     router.get("/photography", &handleStandardRequest);
+    router.get("/rollerderby", &handleStandardRequest);
 
     router.get("/assets/*", serveStaticFiles("./public/"));
 
